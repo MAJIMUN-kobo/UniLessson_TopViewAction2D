@@ -24,9 +24,14 @@ public class NormalEnemy : MonoBehaviour
     [Header("** Particle Settings **")]
     public GameObject deathParticlePrefab;
 
+    [Header("** Score Settings **")]
+    public ScoreManager scoreManager;
+    public int addScore = 10;
+
     void Start()
     {
         SearchPlayer();
+        SearchScoreManager();
     }
 
     void Update()
@@ -50,11 +55,19 @@ public class NormalEnemy : MonoBehaviour
     }
 
     /// <summary>
-    /// プレイヤーを探索するメソッド
+    /// 追跡ターゲットを探索するメソッド
     /// </summary>
     public void SearchPlayer()
     {
         chaseTarget = GameObject.Find("Player");
+    }
+
+    /// <summary>
+    /// ScoreManagerを探索するメソッド
+    /// </summary>
+    public void SearchScoreManager()
+    {
+        scoreManager = FindAnyObjectByType<ScoreManager>();
     }
 
     /// <summary>
@@ -116,6 +129,9 @@ public class NormalEnemy : MonoBehaviour
     public void OnDeath()
     {
         gameObject.SetActive( false );
+
+        AddScore( addScore );
+
         CreateDeathParticle();
     }
 
@@ -132,5 +148,14 @@ public class NormalEnemy : MonoBehaviour
         particle.transform.eulerAngles = particleRotation;
 
         Destroy(particle, 1.0f);
+    }
+
+    /// <summary>
+    /// スコアを加算するメソッド
+    /// </summary>
+    /// <param name="add">加算値</param>
+    public void AddScore(int add)
+    {
+        scoreManager.AddScore( add );
     }
 }

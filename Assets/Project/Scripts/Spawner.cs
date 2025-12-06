@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    [Header("** Spawn Settings **")]
     public GameObject spawnPrefab;
-
     public float spawnInterval = 2.0f;
     public float intervalTimer = 0.0f;
 
@@ -18,6 +18,9 @@ public class Spawner : MonoBehaviour
         SpawnUpdate();
     }
 
+    /// <summary>
+    /// スポナーを動かすメソッド
+    /// </summary>
     public void SpawnUpdate()
     {
         intervalTimer += Time.deltaTime;
@@ -29,6 +32,9 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// オブジェクトを生成するメソッド
+    /// </summary>
     public void Spawn()
     {
         if(spawnPrefab == null)

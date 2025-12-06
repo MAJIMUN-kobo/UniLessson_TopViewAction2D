@@ -75,6 +75,12 @@ public class NormalEnemy : MonoBehaviour
     /// </summary>
     public void MoveUpdate()
     {
+        if(chaseTarget == null)
+        {
+            Debug.LogError("Null Error: chaseTarget");
+            return;
+        }
+
         moveVector = new Vector3(0, 0, 0);
 
         Vector3 targetDiff = chaseTarget.transform.position - transform.position;

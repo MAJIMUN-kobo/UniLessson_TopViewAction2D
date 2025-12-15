@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     [Header("** Health Settings **")]
     public float healthMax = 100.0f;
     public float health = 100.0f;
+    public bool isAlive = true;
 
     [Header("** Renderer Settings **")]
     public SpriteRenderer spriteRenderer;
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour
 
     [Header("** Particle Settings **")]
     public GameObject deathParticlePrefab;
+    public GameObject damageParticlePrefab;
 
     void Start()
     {
@@ -41,6 +43,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (isAlive == false)
+        {
+            return;
+        }
+
         InputUpdate();
         MoveUpdate();
         HandUpdate();
@@ -51,13 +58,24 @@ public class Player : MonoBehaviour
     {
         if( collision.transform.tag == "Enemy" )
         {
+            NormalEnemy enemy = collision.transform.GetComponent<NormalEnemy>();
+
             Vector3 posA = transform.position;
             Vector3 posB = collision.transform.position;
             Vector3 knockBackVector = posB - posA;
 
             KnockBack( knockBackVector, 0.5f );
+            CreateParticle(damageParticlePrefab);
+            OnDamage(10.0f);
 
-            OnDamage( 10.0f );
+            enemy.OnDamage(10.0f);
+            enemy.CreateParticle(enemy.damageParticlePrefab);
+            
+            if( HealthCheck() == false && isAlive == true )
+            {
+                CreateParticle(deathParticlePrefab);
+                OnDeath();
+            }
         }
 
         if( collision.transform.tag == "Item" )
@@ -171,10 +189,9 @@ public class Player : MonoBehaviour
     {
         health -= damage;
 
-        if( health <= 0 )
+        if(health < 0)
         {
             health = 0;
-            OnDeath();
         }
     }
 
@@ -183,18 +200,40 @@ public class Player : MonoBehaviour
     /// </summary>
     public void OnDeath()
     {
+        isAlive = false;
         gameObject.SetActive( false );
+    }
+
+    /// <summary>
+    /// 体力チェックメソッド
+    /// </summary>
+    /// <returns>生存フラグ</returns>
+    public bool HealthCheck()
+    {
+        if (health <= 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>
     /// 死亡時のパーティクルを生成するメソッド
     /// </summary>
-    public void CreateDeathParticle()
+    /// <param name="original">複製オブジェクト</param>
+    public void CreateParticle( GameObject original )
     {
+        if(original == null)
+        {
+            Debug.LogWarning("パーティクルのプレハブが設定されていません。");
+            return;
+        }
+
         Vector3 particlePosition = transform.position;
         Vector3 particleRotation = new Vector3(-90, 0, 0);
         
-        GameObject particle = Instantiate( deathParticlePrefab );
+        GameObject particle = Instantiate( original );
         particle.transform.position = particlePosition;
         particle.transform.eulerAngles = particleRotation;
 

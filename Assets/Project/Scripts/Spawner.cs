@@ -6,7 +6,11 @@ public class Spawner : MonoBehaviour
     [Header("** Spawn Settings **")]
     public GameObject spawnPrefab;
     public float spawnInterval = 2.0f;
-    public float intervalTimer = 0.0f;
+    public float randomPositionOffsetX = 0.5f;
+    public float randomPositionOffsetY = 0.5f;
+    public int appearCount = 1;
+
+    [HideInInspector] public float intervalTimer = 0.0f;
 
     void Start()
     {
@@ -43,6 +47,13 @@ public class Spawner : MonoBehaviour
             return;
         }
 
-        GameObject clone = Instantiate(spawnPrefab, transform.position, transform.rotation);
+        for (int i = 0; i < appearCount; i++)
+        {
+            Vector3 spawnPosition = transform.position;
+            spawnPosition.x += Random.Range(-randomPositionOffsetX, randomPositionOffsetX);
+            spawnPosition.y += Random.Range(-randomPositionOffsetY, randomPositionOffsetY);
+
+            GameObject clone = Instantiate(spawnPrefab, spawnPosition, transform.rotation);
+        }
     }
 }

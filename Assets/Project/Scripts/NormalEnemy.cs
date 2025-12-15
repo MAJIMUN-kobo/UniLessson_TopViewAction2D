@@ -11,6 +11,7 @@ public class NormalEnemy : MonoBehaviour
     [Header("** Health Settings **")]
     public float healthMax = 10.0f;
     public float health = 10.0f;
+    public bool isAlive = true;
 
     [Header("** Renderer Settings **")]
     public SpriteRenderer spriteRenderer;
@@ -23,6 +24,7 @@ public class NormalEnemy : MonoBehaviour
 
     [Header("** Particle Settings **")]
     public GameObject deathParticlePrefab;
+    public GameObject damageParticlePrefab;
 
     [Header("** Score Settings **")]
     public ScoreManager scoreManager;
@@ -36,6 +38,11 @@ public class NormalEnemy : MonoBehaviour
 
     void Update()
     {
+        if( isAlive == false )
+        {
+            return;
+        }
+
         MoveUpdate();
         DirectionUpdate();
     }
@@ -49,8 +56,16 @@ public class NormalEnemy : MonoBehaviour
             Vector3 knockBackVector = posB - posA;
 
             KnockBack( knockBackVector, 0.5f );
+            CreateParticle( damageParticlePrefab );
 
             OnDamage( 10.0f );
+
+            if (HealthCheck() == false && isAlive == true)
+            {
+                AddScore(addScore);
+                CreateParticle(deathParticlePrefab);
+                OnDeath();
+            }
         }
     }
 
@@ -125,7 +140,6 @@ public class NormalEnemy : MonoBehaviour
         if( health <= 0 )
         {
             health = 0;
-            OnDeath();
         }
     }
 
@@ -134,22 +148,40 @@ public class NormalEnemy : MonoBehaviour
     /// </summary>
     public void OnDeath()
     {
+        isAlive = false;
         gameObject.SetActive( false );
+    }
 
-        AddScore( addScore );
+    /// <summary>
+    /// 体力チェックメソッド
+    /// </summary>
+    /// <returns>生存フラグ</returns>
+    public bool HealthCheck()
+    {
+        if (health <= 0)
+        {
+            return false;
+        }
 
-        CreateDeathParticle();
+        return true;
     }
 
     /// <summary>
     /// 死亡時のパーティクルを生成するメソッド
     /// </summary>
-    public void CreateDeathParticle()
+    /// <param name="original">複製オブジェクト</param>
+    public void CreateParticle(GameObject original)
     {
+        if (original == null)
+        {
+            Debug.LogWarning("パーティクルのプレハブが設定されていません。");
+            return;
+        }
+
         Vector3 particlePosition = transform.position;
         Vector3 particleRotation = new Vector3(-90, 0, 0);
-        
-        GameObject particle = Instantiate( deathParticlePrefab );
+
+        GameObject particle = Instantiate(original);
         particle.transform.position = particlePosition;
         particle.transform.eulerAngles = particleRotation;
 

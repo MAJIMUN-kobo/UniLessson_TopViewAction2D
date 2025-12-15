@@ -338,3 +338,6 @@ MonoBehaviour:
   animator: {fileID: 1147959877875224932}
   audioSource: {fileID: 2155432791829699102}
   deathParticlePrefab: {fileID: 1928862004257971779, guid: 006c3d6cdedab3948938e5dc960c4a32, type: 3}
+  damageParticlePrefab: {fileID: 1928862004257971779, guid: 4087c62c9ecda204581538f0c1720b1e, type: 3}
+  scoreManager: {fileID: 0}
+  addScore: 10

@@ -5,10 +5,11 @@ public class TimeManager : MonoBehaviour
 {
     [Header("** Timer Settings **")]
     public float timeLimit = 10.0f;
-    public float gameTimer = 0.0f;
 
     [Header("** uGUI Settings **")]
     public TextMeshProUGUI timerText;
+
+    [HideInInspector] public float gameTimer = 0.0f;
 
     void Start()
     {
@@ -21,11 +22,17 @@ public class TimeManager : MonoBehaviour
         TimerTextUpdate();
     }
 
+    /// <summary>
+    /// 初期化メソッド
+    /// </summary>
     public void Initialize()
     {
         gameTimer = timeLimit;
     }
 
+    /// <summary>
+    /// 時間を更新するメソッド
+    /// </summary>
     public void TimerUpdate()
     {
         gameTimer -= Time.deltaTime;
@@ -35,6 +42,9 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 時間のテキストを更新するメソッド
+    /// </summary>
     public void TimerTextUpdate()
     {
         if (timerText == null)

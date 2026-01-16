@@ -4,7 +4,7 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     [Header("** Timer Settings **")]
-    public float timeLimit = 10.0f;
+    public float timeLimit = 999.0f;
 
     [Header("** uGUI Settings **")]
     public TextMeshProUGUI timerText;
@@ -27,7 +27,7 @@ public class TimeManager : MonoBehaviour
     /// </summary>
     public void Initialize()
     {
-        gameTimer = timeLimit;
+        gameTimer = 0;
     }
 
     /// <summary>
@@ -35,10 +35,10 @@ public class TimeManager : MonoBehaviour
     /// </summary>
     public void TimerUpdate()
     {
-        gameTimer -= Time.deltaTime;
-        if (gameTimer <= 0)
+        gameTimer += Time.deltaTime;
+        if (gameTimer > timeLimit)
         {
-            gameTimer = 0;
+            gameTimer = timeLimit;
         }
     }
 

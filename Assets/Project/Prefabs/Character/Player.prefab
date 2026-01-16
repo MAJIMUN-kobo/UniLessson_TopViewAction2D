@@ -286,9 +286,12 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   healthMax: 100
   health: 100
+  isAlive: 1
+  attackValue: 20
   spriteRenderer: {fileID: 3593411867422820853}
   animator: {fileID: 1766295117364443788}
   audioSource: {fileID: 7338532604515648129}
+  footDustParticle: {fileID: 5568891481314353408}
   deathParticlePrefab: {fileID: 1928862004257971779, guid: 006c3d6cdedab3948938e5dc960c4a32, type: 3}
   damageParticlePrefab: {fileID: 1928862004257971779, guid: 4087c62c9ecda204581538f0c1720b1e, type: 3}
 --- !u!1 &9168528720249453845
@@ -366,7 +369,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: -325873113, guid: 7396af28ba877ff43a8d6c0091760cd8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -500,5 +503,10 @@ PrefabInstance:
 --- !u!4 &5352284765207826333 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2370422244013625838, guid: c2e125fcd06e0c147aaae93e168f01e1, type: 3}
+  m_PrefabInstance: {fileID: 7683788414120844915}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5568891481314353408 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2876359346938167155, guid: c2e125fcd06e0c147aaae93e168f01e1, type: 3}
   m_PrefabInstance: {fileID: 7683788414120844915}
   m_PrefabAsset: {fileID: 0}

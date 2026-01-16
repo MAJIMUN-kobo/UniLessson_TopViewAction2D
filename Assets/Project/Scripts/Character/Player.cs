@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     public float health = 100.0f;
     public bool isAlive = true;
 
+    [Header("** Attack Settings **")]
+    public float attackValue = 20.0f;
+
     [Header("** Renderer Settings **")]
     public SpriteRenderer spriteRenderer;
 
@@ -43,10 +46,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (isAlive == false)
-        {
-            return;
-        }
+        if (isAlive == false) return;
 
         InputUpdate();
         MoveUpdate();
@@ -59,17 +59,16 @@ public class Player : MonoBehaviour
         if( collision.transform.tag == "Enemy" )
         {
             NormalEnemy enemy = collision.transform.GetComponent<NormalEnemy>();
+            if (enemy == null) return;
 
             Vector3 posA = transform.position;
-            Vector3 posB = collision.transform.position;
+            Vector3 posB = enemy.transform.position;
             Vector3 knockBackVector = posB - posA;
+            float enemyAtk = enemy.attackValue;
 
             KnockBack( knockBackVector, 0.5f );
             CreateParticle(damageParticlePrefab);
-            OnDamage(10.0f);
-
-            enemy.OnDamage(10.0f);
-            enemy.CreateParticle(enemy.damageParticlePrefab);
+            OnDamage(enemyAtk);
             
             if( HealthCheck() == false && isAlive == true )
             {
@@ -80,7 +79,10 @@ public class Player : MonoBehaviour
 
         if( collision.transform.tag == "Item" )
         {
-            OnHeal( collision.gameObject, 10.0f );
+            Item item = collision.transform.GetComponent<Item>();
+            if (item == null) return;
+
+            item.OnActiveEffect( this );
         }
     }
 
@@ -170,7 +172,8 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 回復時の処理メソッド
     /// </summary>
-    public void OnHeal( GameObject item, float heal )
+    /// <param name="heal">回復量</param>
+    public void OnHeal( float heal )
     {
         health += heal;
 
@@ -178,13 +181,12 @@ public class Player : MonoBehaviour
         {
             health = healthMax;
         }
-
-        Destroy( item );
     }
 
     /// <summary>
     /// 被ダメージ時の処理メソッド
     /// </summary>
+    /// <param name="damage">ダメージ量</param>
     public void OnDamage( float damage )
     {
         health -= damage;
@@ -205,7 +207,7 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// 体力チェックメソッド
+    /// 生存チェックメソッド
     /// </summary>
     /// <returns>生存フラグ</returns>
     public bool HealthCheck()

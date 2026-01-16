@@ -332,8 +332,9 @@ MonoBehaviour:
   chaseTarget: {fileID: 0}
   moveVector: {x: 0, y: 0, z: 0}
   direction: {x: 0, y: 0, z: 0}
-  healthMax: 10
-  health: 10
+  healthMax: 20
+  health: 20
+  isAlive: 1
   spriteRenderer: {fileID: 2258375390059412937}
   animator: {fileID: 1147959877875224932}
   audioSource: {fileID: 2155432791829699102}

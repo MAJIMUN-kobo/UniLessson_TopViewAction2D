@@ -13,6 +13,9 @@ public class NormalEnemy : MonoBehaviour
     public float health = 10.0f;
     public bool isAlive = true;
 
+    [Header("** Attack Settings **")]
+    public float attackValue = 10.0f;
+
     [Header("** Renderer Settings **")]
     public SpriteRenderer spriteRenderer;
 
@@ -51,18 +54,41 @@ public class NormalEnemy : MonoBehaviour
     {
         if( collision.transform.tag == "Weapon" )
         {
+            Weapon weapon = collision.transform.GetComponent<Weapon>();
+            if (weapon == null) return;
+
             Vector3 posA = transform.position;
             Vector3 posB = collision.transform.position;
             Vector3 knockBackVector = posB - posA;
-
             KnockBack( knockBackVector, 0.5f );
-            CreateParticle( damageParticlePrefab );
 
-            OnDamage( 10.0f );
+            CreateParticle( damageParticlePrefab );
+            OnDamage( weapon.attackValue );
+
+            if ( HealthCheck() == false && isAlive == true )
+            {
+                AddScore(addScore);
+                CreateParticle(deathParticlePrefab);
+                OnDeath();
+            }
+        }
+
+        if( collision.transform.tag == "Player" )
+        {
+            Player player = collision.transform.GetComponent<Player>();
+            if (player == null) return;
+
+            Vector3 posA = transform.position;
+            Vector3 posB = player.transform.position;
+            Vector3 knockBackVector = posB - posA;
+            KnockBack(knockBackVector, 0.5f);
+
+            CreateParticle(damageParticlePrefab);
+            OnDamage( player.attackValue );
 
             if (HealthCheck() == false && isAlive == true)
             {
-                AddScore(addScore);
+                AddScore( addScore * 2 );
                 CreateParticle(deathParticlePrefab);
                 OnDeath();
             }

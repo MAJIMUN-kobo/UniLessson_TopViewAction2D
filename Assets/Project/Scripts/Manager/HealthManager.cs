@@ -9,18 +9,15 @@ public class HealthManager : MonoBehaviour
     [Header("** uGUI Settings **")]
     public TextMeshProUGUI healthText;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         SearchPlayer();
         HealthTextUpdate();
     }
 
+    /// <summary>
+    /// Playerのスクリプトを持つオブジェクトを検索するメソッド
+    /// </summary>
     public void SearchPlayer()
     {
         if ( player == null )
@@ -29,6 +26,9 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 体力のテキストUIを更新するメソッド
+    /// </summary>
     public void HealthTextUpdate()
     {
         if(healthText == null)

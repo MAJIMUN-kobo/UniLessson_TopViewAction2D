@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    [Header("** Player Information **")]
+    public Player player;
+
     [Header("** Spawn Settings **")]
     public GameObject spawnPrefab;
     public float spawnInterval = 2.0f;
@@ -19,7 +22,19 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
+        SearchPlayer();
         SpawnUpdate();
+    }
+
+    /// <summary>
+    /// Playerのスクリプトを持つオブジェクトを検索するメソッド
+    /// </summary>
+    public void SearchPlayer()
+    {
+        if (player == null)
+        {
+            player = FindAnyObjectByType<Player>();
+        }
     }
 
     /// <summary>
@@ -27,6 +42,8 @@ public class Spawner : MonoBehaviour
     /// </summary>
     public void SpawnUpdate()
     {
+        if (player != null && player.isAlive == false) return;
+
         intervalTimer += Time.deltaTime;
         if (spawnInterval <= intervalTimer)
         {

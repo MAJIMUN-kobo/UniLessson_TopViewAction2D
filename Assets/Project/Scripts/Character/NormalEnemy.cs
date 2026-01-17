@@ -116,7 +116,7 @@ public class NormalEnemy : MonoBehaviour
     /// </summary>
     public void MoveUpdate()
     {
-        if(chaseTarget == null)
+        if (chaseTarget == null)
         {
             Debug.LogError("Null Error: chaseTarget");
             return;

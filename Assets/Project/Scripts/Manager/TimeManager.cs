@@ -6,6 +6,9 @@ public class TimeManager : MonoBehaviour
     [Header("** Timer Settings **")]
     public float timeLimit = 999.0f;
 
+    [Header("** Player Information **")]
+    public Player player;
+
     [Header("** uGUI Settings **")]
     public TextMeshProUGUI timerText;
 
@@ -18,6 +21,7 @@ public class TimeManager : MonoBehaviour
 
     void Update()
     {
+        SearchPlayer();
         TimerUpdate();
         TimerTextUpdate();
     }
@@ -35,6 +39,8 @@ public class TimeManager : MonoBehaviour
     /// </summary>
     public void TimerUpdate()
     {
+        if (player != null && player.isAlive == false) return;
+
         gameTimer += Time.deltaTime;
         if (gameTimer > timeLimit)
         {
@@ -54,5 +60,16 @@ public class TimeManager : MonoBehaviour
         }
 
         timerText.text = gameTimer.ToString("F2");
+    }
+
+    /// <summary>
+    /// Playerのスクリプトを持つオブジェクトを検索するメソッド
+    /// </summary>
+    public void SearchPlayer()
+    {
+        if (player == null)
+        {
+            player = FindAnyObjectByType<Player>();
+        }
     }
 }

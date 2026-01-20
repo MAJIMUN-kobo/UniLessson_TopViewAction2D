@@ -2002,7 +2002,7 @@ GameObject:
   - component: {fileID: 7764057903082224098}
   - component: {fileID: 1345782211771850670}
   m_Layer: 0
-  m_Name: tilemap_dungeon
+  m_Name: TinyDungeon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,7 +8,10 @@ public class ScoreManager : MonoBehaviour
     public int highScore = 0;
     public int scoreCountMax = 99999;
 
+    [Header("** UI Settings **")]
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI resultScoreText;
+    public TextMeshProUGUI resultHighScoreText;
 
     void Start()
     {
@@ -45,6 +48,8 @@ public class ScoreManager : MonoBehaviour
         }
 
         scoreText.text = score.ToString("D5");
+        resultScoreText.text = score.ToString("D5");
+        resultHighScoreText.text = highScore.ToString("D5");
     }
 
     public void SaveScore()

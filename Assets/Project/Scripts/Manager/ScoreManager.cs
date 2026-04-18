@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
     public int highScore = 0;
     public int scoreCountMax = 99999;
 
-    [Header("** UI Settings **")]
+    [Header("** uGUI Settings **")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI resultScoreText;
     public TextMeshProUGUI resultHighScoreText;
@@ -22,6 +22,8 @@ public class ScoreManager : MonoBehaviour
     void Update()
     {
         ScoreTextUpdate();
+        ResultScoreUpdate();
+        ResultHighScoreUpdate();
     }
 
     public void AddScore( int add )
@@ -48,7 +50,28 @@ public class ScoreManager : MonoBehaviour
         }
 
         scoreText.text = score.ToString("D5");
+        resultHighScoreText.text = highScore.ToString("D5");
+    }
+
+    public void ResultScoreUpdate()
+    {
+        if(resultScoreText == null)
+        {
+            Debug.LogError("Null Error: resultScoreText");
+            return;
+        }
+
         resultScoreText.text = score.ToString("D5");
+    }
+
+    public void ResultHighScoreUpdate()
+    {
+        if(resultHighScoreText == null)
+        {
+            Debug.LogError("Null Error: resultHighScoreText");
+            return;
+        }
+
         resultHighScoreText.text = highScore.ToString("D5");
     }
 

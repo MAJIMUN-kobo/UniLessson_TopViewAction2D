@@ -9,6 +9,11 @@ public class HealthManager : MonoBehaviour
     [Header("** uGUI Settings **")]
     public TextMeshProUGUI healthText;
 
+    void Start()
+    {
+        // “Á‚É‚È‚µ
+    }
+
     void Update()
     {
         SearchPlayer();

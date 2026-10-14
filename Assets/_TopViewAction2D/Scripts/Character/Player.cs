@@ -240,4 +240,9 @@ public class Player : MonoBehaviour
 
         Destroy(particle, 1.0f);
     }
+
+    public void PlaySE(AudioClip se, float volume = 1.0f)
+    {
+        AudioSource.PlayClipAtPoint(se, transform.position, volume);
+    }
 }

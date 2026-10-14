@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using unityroom.Api;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -79,6 +80,12 @@ public class ScoreManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("HighScore", highScore);
         PlayerPrefs.Save();
+
+#if UNITY_WEBGL
+        // Unityroom 用のスコア保存処理
+        UnityroomApiClient.Instance.SendScore(1, highScore, ScoreboardWriteMode.HighScoreDesc);
+#endif
+
     }
 
     public void LoadScore()
